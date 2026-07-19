@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dino Portfolio - Recriação Premium</title>
+    <!-- Fontes modernas e Pixel Art para o estilo Arcade -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER PRINCIPAL -->
+        <header class="app-header">
+            <div class="logo-area">
+                <span class="logo-icon">💼</span>
+                <h1>DASH<span>DO EMPREGO</span></h1>
+                <span class="badge">PRO</span>
+            </div>
+            
+            <div class="header-controls" style="display: flex; gap: 8px; align-items: center;">
+                <div class="volume-control-container">
+                    <button id="sfx-toggle" class="volume-control-btn" title="Efeitos do Jogo (SFX): Ativados">
+                        <span class="sfx-icon">🔊</span>
+                    </button>
+                    <button id="music-toggle" class="volume-control-btn" title="Música de Fundo: Ativada" style="margin-left: 4px;">
+                        <span class="music-icon">🎵</span>
+                    </button>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.3" title="Volume da Música">
+                </div>
+                <button id="theme-toggle" class="theme-toggle-btn" title="Alternar Tema (Modo Escuro / Claro)">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- ÁREA CENTRAL DO JOGO -->
+        <main class="game-stage">
+            <div id="canvas-wrapper">
+                <canvas id="gameCanvas"></canvas>
+            </div>
+            <!-- Botões Virtuais para Mobile -->
+            <div id="mobile-controls" class="mobile-controls-container">
+                <button id="btn-mobile-jump" class="mobile-btn-control jump-btn">PULAR</button>
+                <button id="btn-mobile-shoot" class="mobile-btn-control shoot-btn">CURRÍCULO</button>
+            </div>
+        </main>
+
+        <!-- DASHBOARD DE INFORMAÇÕES E CONTROLES -->
+        <section class="dashboard-grid">
+            <!-- Card 1: Comandos -->
+            <div class="dashboard-card controls-card">
+                <h3>🎮 CONTROLES</h3>
+                <div class="kbd-list">
+                    <!-- Pular / Começar -->
+                    <div class="kbd-item desktop-only">
+                        <span class="kbd-label">Pular / Começar</span>
+                        <div class="kbd-keys">
+                            <kbd>Espaço</kbd> ou <kbd>▲</kbd>
+                        </div>
+                    </div>
+                    <div class="kbd-item mobile-only">
+                        <span class="kbd-label">Pular / Começar</span>
+                        <div class="kbd-keys">
+                            <kbd class="kbd-special">Botão Pular</kbd>
+                        </div>
+                    </div>
+                    
+                    <!-- Agachar / Cair Rápido -->
+                    <div class="kbd-item desktop-only">
+                        <span class="kbd-label">Agachar / Cair Rápido</span>
+                        <div class="kbd-keys">
+                            <kbd>▼</kbd>
+                        </div>
+                    </div>
+                    <div class="kbd-item mobile-only">
+                        <span class="kbd-label">Agachar / Cair Rápido</span>
+                        <div class="kbd-keys">
+                            <kbd class="kbd-special">Deslizar p/ Baixo</kbd>
+                        </div>
+                    </div>
+                    
+                    <!-- Atirar Currículo -->
+                    <div class="kbd-item desktop-only">
+                        <span class="kbd-label">Atirar Currículo</span>
+                        <div class="kbd-keys">
+                            <kbd>X</kbd> ou <kbd>Z</kbd>
+                        </div>
+                    </div>
+                    <div class="kbd-item mobile-only">
+                        <span class="kbd-label">Atirar Currículo</span>
+                        <div class="kbd-keys">
+                            <kbd class="kbd-special">Botão Currículo</kbd>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Sobre -->
+            <div class="dashboard-card info-card">
+                <h3>💼 CONCEITO DO JOGO</h3>
+                <p>Neste jogo você é um jovem em busca do primeiro emprego. Corra pela cidade, desvie dos obstáculos da vida real (falta de experiência, ghosting do RH, processos complicados) e arremesse currículos nos sites de emprego para marcar pontos.</p>
+                <p>Quanto mais currículos você acertar, mais pontos ganha!</p>
+            </div>
+
+            <!-- Card 3: Editor -->
+            <div class="dashboard-card editor-card">
+                <h3>🎯 DICA PARA A JORNADA</h3>
+                <p>O caminho não é fácil, mas cada currículo enviado é um passo adiante.</p>
+                <p>Foque na sua evolução, construa seu portfólio e continue correndo atrás dos seus objetivos. Você consegue!</p>
+            </div>
+        </section>
+
+        <!-- RODAPÉ -->
+        <footer class="app-footer">
+            <p>Portfólio Gamificado © 2026 | Desenvolvido com Vanilla JS & CSS Premium</p>
+        </footer>
+    </div>
+
+    <!-- Modal de Confirmação Customizado (Aesthetics Premium) -->
+    <div id="custom-confirm-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>⚠️ CONFIRMAÇÃO</h3>
+            </div>
+            <div class="modal-body">
+                <p id="custom-confirm-message">Deseja realmente realizar esta ação?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="confirm-cancel-btn" class="modal-btn secondary">CANCELAR</button>
+                <button id="confirm-ok-btn" class="modal-btn">CONFIRMAR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Registro de Score (Aesthetics Premium) -->
+    <div id="score-register-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>🏆 REGISTRAR RECORDE</h3>
+            </div>
+            <div class="modal-body">
+                <p id="register-score-msg">Incrível! Você fez <strong id="register-score-val" style="color: #00e5ff; font-size: 16px;">0</strong> pontos!</p>
+                <div style="margin-top: 15px; text-align: left;">
+                    <label for="score-player-name" style="font-weight: bold; color: var(--text-color); display: block; margin-bottom: 5px; font-size: 11px;">DIGITE SEU NOME:</label>
+                    <input type="text" id="score-player-name" maxlength="15" placeholder="SEU NOME" style="width: 100%; padding: 8px 12px; font-size: 14px; border-radius: 6px; border: 1.5px solid var(--border-color); background: var(--card-bg); color: var(--text-color); box-sizing: border-box; text-transform: uppercase; font-family: sans-serif; font-weight: 600;">
+                </div>
+                <div id="avancode-container" style="margin-top: 15px; text-align: left; display: none;">
+                    <label for="score-player-avancode" style="font-weight: bold; color: var(--text-color); display: block; margin-bottom: 5px; font-size: 11px;">NÚMERO DO AVANCODE:</label>
+                    <input type="text" id="score-player-avancode" maxlength="20" placeholder="SEU AVANCODE" style="width: 100%; padding: 8px 12px; font-size: 14px; border-radius: 6px; border: 1.5px solid var(--border-color); background: var(--card-bg); color: var(--text-color); box-sizing: border-box; text-transform: uppercase; font-family: sans-serif; font-weight: 600;">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="score-cancel-btn" class="modal-btn secondary">CANCELAR</button>
+                <button id="score-submit-btn" class="modal-btn">SALVAR RECORDE</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="design.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
