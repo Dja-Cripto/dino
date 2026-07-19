@@ -729,7 +729,7 @@ body.light-theme #volume-slider {
 
   /* Zoom do Canvas no Celular */
   #canvas-wrapper {
-    height: 180px;
+    height: 210px;
     overflow: hidden;
     position: relative;
     padding: 0;

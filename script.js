@@ -827,9 +827,9 @@ class MainMenu {
     // Se for mobile/tablet (zoom ativo), empilhamos botões de Game Over verticalmente
     if (state === State.GAME_OVER && isMobile) {
       return [
-        { id: 'RETRY', label: 'JOGAR NOVAMENTE', x: centerX - 90, y: 125, w: 180, h: 24 },
-        { id: 'REGISTER_SCORE', label: 'REGISTRAR SCORE', x: centerX - 90, y: 155, w: 180, h: 24 },
-        { id: 'MAIN_MENU', label: 'MENU PRINCIPAL', x: centerX - 90, y: 185, w: 180, h: 24 }
+        { id: 'RETRY', label: 'JOGAR NOVAMENTE', x: centerX - 110, y: 115, w: 220, h: 36 },
+        { id: 'REGISTER_SCORE', label: 'REGISTRAR SCORE', x: centerX - 110, y: 160, w: 220, h: 36 },
+        { id: 'MAIN_MENU', label: 'MENU PRINCIPAL', x: centerX - 110, y: 205, w: 220, h: 36 }
       ];
     }
     
@@ -844,8 +844,8 @@ class MainMenu {
 
     if (state === State.GAME_WIN && isMobile) {
       return [
-        { id: 'REGISTER_SCORE', label: 'REGISTRAR SCORE', x: centerX - 90, y: 140, w: 180, h: 26 },
-        { id: 'MAIN_MENU', label: 'MENU PRINCIPAL', x: centerX - 90, y: 175, w: 180, h: 26 }
+        { id: 'REGISTER_SCORE', label: 'REGISTRAR SCORE', x: centerX - 110, y: 135, w: 220, h: 38 },
+        { id: 'MAIN_MENU', label: 'MENU PRINCIPAL', x: centerX - 110, y: 185, w: 220, h: 38 }
       ];
     }
     
@@ -962,7 +962,8 @@ class UI {
     ctx.stroke();
     
     ctx.fillStyle = textColor;
-    ctx.font = `800 11px ${config.fontFamily}`;
+    const fontSize = btn.h > 30 ? '12px' : '11px';
+    ctx.font = `800 ${fontSize} ${config.fontFamily}`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(btn.label, btn.x + btn.w / 2, btn.y + btn.h / 2);
