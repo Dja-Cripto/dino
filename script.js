@@ -1669,6 +1669,15 @@ class Renderer {
     const highStr = String(score.highScore).padStart(5, '0');
     const text = `HI ${highStr}  ${currentStr}`;
 
+    const bounds = this.getVisibleBounds();
+    const isMobile = bounds.width < 800;
+    
+    // Garante que o placar fique na área visível do celular se estiver recortado
+    let targetRight = Math.min(this.canvas.width, bounds.right);
+    if (isMobile) {
+      targetRight = Math.min(targetRight, 480);
+    }
+
     this.ctx.save();
     
     // Desenha o badge de fundo com alto contraste absoluto
@@ -1679,7 +1688,7 @@ class Renderer {
     
     const rectW = textWidth + paddingX * 2;
     const rectH = 22 + paddingY * 2;
-    const rectX = this.canvas.width - rectW - 20;
+    const rectX = targetRight - rectW - 10;
     const rectY = 15;
     
     this.ctx.fillStyle = 'rgba(10, 10, 15, 0.85)';
@@ -1695,7 +1704,7 @@ class Renderer {
     this.ctx.fillStyle = '#00e5ff';
     this.ctx.textAlign = 'right';
     this.ctx.textBaseline = 'middle';
-    this.ctx.fillText(text, this.canvas.width - 20 - paddingX, rectY + rectH / 2);
+    this.ctx.fillText(text, targetRight - 10 - paddingX, rectY + rectH / 2);
     
     this.ctx.restore();
   }
@@ -3174,9 +3183,6 @@ class Game {
     const playerSelected = (this.selectedEntity === this.player);
     PlayerRenderer.draw(this.renderer.ctx, this.player, this.dayModePercent, this.particles, playerSelected, this.renderer);
 
-    // 9. Pontuação
-    this.renderer.drawScore(this.score, this.dayModePercent);
-
     // 10. Spawn Debug
     if (DesignConfig.DEBUG.showSpawnArea) {
       this.renderer.ctx.save();
@@ -3198,6 +3204,9 @@ class Game {
     } else if (this.state === State.GAME_WIN) {
       this.renderer.drawGameWin(this.dayModePercent, this.mainMenu, activeButtons);
     }
+
+    // 9. Pontuação (Sempre desenhada por cima de qualquer overlay para brilhar com contraste máximo)
+    this.renderer.drawScore(this.score, this.dayModePercent);
   }
 
   loop(timestamp) {
