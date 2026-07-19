@@ -4415,8 +4415,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const btnMobileShoot = document.getElementById('btn-mobile-shoot');
 
     if (btnMobileJump) {
-      const handleJump = (e) => {
+      const handleJumpStart = (e) => {
         e.preventDefault();
+        game.input.isJumping = true; // Habilita pulo alto progressivo ao segurar!
+        
         if (game.state === State.PLAYING) {
           if (!game.player.isJumping) {
             game.player.velocityY = -(DesignConfig.player.jumpForce || 14.5);
@@ -4435,8 +4437,16 @@ window.addEventListener('DOMContentLoaded', () => {
         }
       };
 
-      btnMobileJump.addEventListener('touchstart', handleJump, { passive: false });
-      btnMobileJump.addEventListener('mousedown', handleJump);
+      const handleJumpEnd = (e) => {
+        e.preventDefault();
+        game.input.isJumping = false; // Interrompe pulo alto ao soltar
+      };
+
+      btnMobileJump.addEventListener('touchstart', handleJumpStart, { passive: false });
+      btnMobileJump.addEventListener('touchend', handleJumpEnd, { passive: false });
+      btnMobileJump.addEventListener('mousedown', handleJumpStart);
+      btnMobileJump.addEventListener('mouseup', handleJumpEnd);
+      btnMobileJump.addEventListener('mouseleave', handleJumpEnd);
     }
 
     if (btnMobileShoot) {
