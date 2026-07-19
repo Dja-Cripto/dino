@@ -2409,7 +2409,12 @@ class Game {
         if (e.code === 'Space' || e.key === ' ' || e.key === 'Spacebar') {
           e.preventDefault();
           this.input.isJumping = false;
-          this.handleClick(-1, -1);
+          this.reset();
+          this.audio.playJump();
+          this.player.velocityY = -(DesignConfig.player.jumpForce || 14.5);
+          this.player.isJumping = true;
+          this.player.state = 'JUMPING';
+          this.state = State.PLAYING;
         }
       }
     });
